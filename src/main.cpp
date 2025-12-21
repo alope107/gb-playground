@@ -31,8 +31,21 @@ void wait(int frames) {
     for(int i = 0; i < frames; i++) bn::core::update();
 }
 
-void clear_bubbles() {
-
+void clear_bubbles(bn::vector<bn::vector<bn::sprite_ptr, 13>, 9> &dots, bool (&popped)[9][13], int sel_row, int sel_col) {
+    if(popped[sel_row][sel_col]) {
+        dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 2);
+    } else {
+        dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 0);
+    }
+    for(int row = 0; row < dots.size(); row++) {
+        for(int col = 0; col < dots[0].size(); col++) {
+            if(popped[row][col]) bn::sound_items::pop.play();
+            dots[row][col].set_item(bn::sprite_items::dot, 1);
+            popped[row][col] = false;
+            wait(1);
+            dots[row][col].set_item(bn::sprite_items::dot, 0);
+        }
+    }
 }
 
 int main() {
@@ -70,6 +83,7 @@ int main() {
         
         sel_col = wrap(sel_col+tribool(bn::keypad::left_pressed(), bn::keypad::right_pressed()), dots[0].size() - 1);
         sel_row = wrap(sel_row+tribool(bn::keypad::up_pressed(), bn::keypad::down_pressed()), dots.size() - 1);
+        
         if(bn::keypad::a_pressed() && !popped[sel_row][sel_col]) {
             popped[sel_row][sel_col] = true;
             bn::sound_items::pop.play();
@@ -81,23 +95,7 @@ int main() {
             dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 1);
         }
 
-        if(bn::keypad::start_pressed()) {
-            if(popped[sel_row][sel_col]) {
-            dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 2);
-            } else {
-                dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 0);
-            }
-
-            for(int row = 0; row < dots.size(); row++) {
-                for(int col = 0; col < dots[0].size(); col++) {
-                    if(popped[row][col]) bn::sound_items::pop.play();
-                    dots[row][col].set_item(bn::sprite_items::dot, 1);
-                    popped[row][col] = false;
-                    wait(1);
-                    dots[row][col].set_item(bn::sprite_items::dot, 0);
-                }
-            }
-        }
+        if(bn::keypad::start_pressed()) clear_bubbles(dots, popped, sel_row, sel_col);
 
         bn::core::update();
     }

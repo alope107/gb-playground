@@ -14,8 +14,8 @@ int main() {
 
     int count = 0;
 
-    for(int x = -120; x <= 120; x+=10) {
-        for(int y = -80; y <= 80; y+=10) {
+    for(int x = -120; x <= 120; x+=20) {
+        for(int y = -80; y <= 80; y+=20) {
             BN_LOG("x", x, "y", y);
             count++;
             BN_LOG("count ", count);
@@ -29,6 +29,10 @@ int main() {
         }
         
     }
+
+    int selected = 1;
+
+    dots[selected].set_item(bn::sprite_items::dot, 1);
 
     while(1) {
         bn::core::update();

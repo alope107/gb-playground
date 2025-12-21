@@ -10,17 +10,21 @@
 int main() {
     bn::core::init();
 
-    bn::vector<bn::sprite_ptr, 36> dots = {};
+    bn::vector<bn::sprite_ptr, 256> dots = {};
 
-    for(int x = 0; x <= 100; x+=20) {
-        for(int y = -40; y <= 60; y+= 20) {
+    int count = 0;
+
+    for(int x = -120; x <= 120; x+=10) {
+        for(int y = -80; y <= 80; y+=10) {
             BN_LOG("x", x, "y", y);
+            count++;
+            BN_LOG("count ", count);
             bn::sprite_ptr dot = bn::sprite_items::dot.create_sprite(x, y);
-            if(x > 0) {
-                bn::fixed scale = 1 + (x/100.0) + (y/100.0);
-                BN_LOG("scale: ", scale);
-                dot.set_scale(scale);
-            }
+            // if(x > 0) {
+            //     bn::fixed scale = 1 + (x/100.0) + (y/100.0);
+            //     BN_LOG("scale: ", scale);
+            //     dot.set_scale(scale);
+            // }
             dots.push_back(dot);
         }
         

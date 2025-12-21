@@ -2,6 +2,7 @@
 #include <bn_sprite_ptr.h>
 #include <bn_log.h>
 #include <bn_fixed.h>
+#include <bn_keypad.h>
 
 #include <bn_vector.h>
 
@@ -35,6 +36,10 @@ int main() {
     dots[selected].set_item(bn::sprite_items::dot, 1);
 
     while(1) {
+        if (bn::keypad::left_held()) {
+            selected++;
+            dots[selected].set_item(bn::sprite_items::dot, 1);
+        }
         bn::core::update();
     }
 

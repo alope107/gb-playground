@@ -3,6 +3,7 @@
 #include <bn_log.h>
 #include <bn_fixed.h>
 #include <bn_keypad.h>
+#include <bn_backdrop.h>
 
 #include <bn_vector.h>
 
@@ -27,6 +28,8 @@ int wrap(int value, int max) {
 
 int main() {
     bn::core::init();
+
+    bn::backdrop::set_color(bn::color(20, 20, 31));
 
     bn::vector<bn::vector<bn::sprite_ptr, 13>, 13> dots = {};
 

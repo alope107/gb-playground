@@ -36,7 +36,8 @@ int main() {
     dots[selected].set_item(bn::sprite_items::dot, 1);
 
     while(1) {
-        if (bn::keypad::left_held()) {
+        if (bn::keypad::left_pressed()) {
+            dots[selected].set_item(bn::sprite_items::dot, 0);
             selected++;
             if(selected >= dots.size()) {
                 selected = 0;

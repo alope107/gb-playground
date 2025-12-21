@@ -8,6 +8,7 @@
 #include <bn_vector.h>
 
 #include "bn_sprite_items_dot.h"
+#include "bn_sound_items.h"
 
 int tribool(bool minus, bool plus) {
     int val = 0;
@@ -33,12 +34,9 @@ int main() {
 
     bn::vector<bn::vector<bn::sprite_ptr, 13>, 13> dots = {};
 
-    int count = 0;
-
     for(int y = -80; y <= 80; y+=20) {
         bn::vector<bn::sprite_ptr, 13> new_line = {};
         for(int x = -120; x <= 120; x+=20) {
-            count++;
             bn::sprite_ptr dot = bn::sprite_items::dot.create_sprite(x, y);
             new_line.push_back(dot);
 
@@ -64,8 +62,9 @@ int main() {
         
         sel_col = wrap(sel_col+tribool(bn::keypad::left_pressed(), bn::keypad::right_pressed()), dots[0].size() - 1);
         sel_row = wrap(sel_row+tribool(bn::keypad::up_pressed(), bn::keypad::down_pressed()), dots.size() - 1);
-        if(bn::keypad::a_pressed()) {
+        if(bn::keypad::a_pressed() && !popped[sel_col][sel_row]) {
             popped[sel_col][sel_row] = true;
+            bn::sound_items::pop.play();
         }
 
         if(popped[sel_col][sel_row]) {

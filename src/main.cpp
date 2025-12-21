@@ -27,6 +27,10 @@ int wrap(int value, int max) {
     return value;
 }
 
+void wait(int frames) {
+    for(int i = 0; i < frames; i++) bn::core::update();
+}
+
 int main() {
     bn::core::init();
 
@@ -74,10 +78,19 @@ int main() {
         }
 
         if(bn::keypad::start_pressed()) {
+            if(popped[sel_row][sel_col]) {
+            dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 2);
+            } else {
+                dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 0);
+            }
+
             for(int row = 0; row < 9; row++) {
                 for(int col = 0; col < 13; col++) {
-                    dots[row][col].set_item(bn::sprite_items::dot, 0);
+                    if(popped[row][col]) bn::sound_items::pop.play();
+                    dots[row][col].set_item(bn::sprite_items::dot, 1);
                     popped[row][col] = false;
+                    wait(1);
+                    dots[row][col].set_item(bn::sprite_items::dot, 0);
                 }
             }
         }

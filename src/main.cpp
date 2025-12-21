@@ -16,9 +16,11 @@ int main() {
         for(int y = -40; y <= 60; y+= 20) {
             BN_LOG("x", x, "y", y);
             bn::sprite_ptr dot = bn::sprite_items::dot.create_sprite(x, y);
-            // bn::fixed scale = 1 + (x/100.0);
-            // BN_LOG("scale: ", scale);
-            // dot.set_scale(scale);
+            if(x > 0) {
+                bn::fixed scale = 1 + (x/100.0) + (y/100.0);
+                BN_LOG("scale: ", scale);
+                dot.set_scale(scale);
+            }
             dots.push_back(dot);
         }
         

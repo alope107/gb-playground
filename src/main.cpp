@@ -31,12 +31,16 @@ void wait(int frames) {
     for(int i = 0; i < frames; i++) bn::core::update();
 }
 
+void clear_bubbles() {
+
+}
+
 int main() {
     bn::core::init();
 
     bn::backdrop::set_color(bn::color(20, 20, 31));
 
-    bn::vector<bn::vector<bn::sprite_ptr, 13>, 13> dots = {};
+    bn::vector<bn::vector<bn::sprite_ptr, 13>, 9> dots = {};
 
     for(int y = -80; y <= 80; y+=20) {
         bn::vector<bn::sprite_ptr, 13> new_line = {};
@@ -49,7 +53,7 @@ int main() {
         
     }
 
-    bool popped[13][13]= {};
+    bool popped[9][13]= {};
 
     int sel_row = 1;
     int sel_col = 3;
@@ -84,8 +88,8 @@ int main() {
                 dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 0);
             }
 
-            for(int row = 0; row < 9; row++) {
-                for(int col = 0; col < 13; col++) {
+            for(int row = 0; row < dots.size(); row++) {
+                for(int col = 0; col < dots[0].size(); col++) {
                     if(popped[row][col]) bn::sound_items::pop.play();
                     dots[row][col].set_item(bn::sprite_items::dot, 1);
                     popped[row][col] = false;

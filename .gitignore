@@ -39,3 +39,14 @@
 
 # debug information files
 *.dwo
+
+# Butano build directory 
+build
+
+# GBA compiled files
+*.elf
+*.gba
+*.sav
+
+# VS Code
+.vscode

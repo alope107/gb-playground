@@ -50,8 +50,8 @@ int main() {
 
     while(1) {
         dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 0);
-        sel_col = wrap(sel_col+tribool(bn::keypad::left_pressed(), bn::keypad::right_pressed()), dots[0].size());
-        sel_row = wrap(sel_row+tribool(bn::keypad::up_pressed(), bn::keypad::down_pressed()), dots.size());
+        sel_col = wrap(sel_col+tribool(bn::keypad::left_pressed(), bn::keypad::right_pressed()), dots[0].size() - 1);
+        sel_row = wrap(sel_row+tribool(bn::keypad::up_pressed(), bn::keypad::down_pressed()), dots.size() - 1);
         dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 1);
         bn::core::update();
     }

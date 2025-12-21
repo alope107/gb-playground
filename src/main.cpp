@@ -11,12 +11,13 @@
 int main() {
     bn::core::init();
 
-    bn::vector<bn::sprite_ptr, 256> dots = {};
+    bn::vector<bn::vector<bn::sprite_ptr, 13>, 13> dots = {};
 
     int count = 0;
 
-    for(int x = -120; x <= 120; x+=20) {
-        for(int y = -80; y <= 80; y+=20) {
+    for(int y = -80; y <= 80; y+=20) {
+        bn::vector<bn::sprite_ptr, 13> new_line = {};
+        for(int x = -120; x <= 120; x+=20) {
             BN_LOG("x", x, "y", y);
             count++;
             BN_LOG("count ", count);
@@ -26,23 +27,49 @@ int main() {
             //     BN_LOG("scale: ", scale);
             //     dot.set_scale(scale);
             // }
-            dots.push_back(dot);
+            new_line.push_back(dot);
         }
+        dots.push_back(new_line);
         
     }
 
-    int selected = 1;
+    int sel_row = 1;
+    int sel_col = 3;
 
-    dots[selected].set_item(bn::sprite_items::dot, 1);
+    dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 1);
 
     while(1) {
         if (bn::keypad::left_pressed()) {
-            dots[selected].set_item(bn::sprite_items::dot, 0);
-            selected++;
-            if(selected >= dots.size()) {
-                selected = 0;
+            dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 0);
+            sel_col--; 
+            if(sel_col < 0) {
+                sel_col = dots[0].size() - 1;
             }
-            dots[selected].set_item(bn::sprite_items::dot, 1);
+            dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 1);
+        }
+        if (bn::keypad::right_pressed()) {
+            dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 0);
+            sel_col++; 
+            if(sel_col >= dots[0].size()) {
+                sel_col = 0;
+            }
+            dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 1);
+        }
+        if (bn::keypad::up_pressed()) {
+            dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 0);
+            sel_row--; 
+            if(sel_row < 0) {
+                sel_row = dots.size() -1;
+            }
+            dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 1);
+        }
+        if (bn::keypad::down_pressed()) {
+            dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 0);
+            sel_row++; 
+            if(sel_row >= dots.size()) {
+                sel_row = 0;
+            }
+            dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 1);
         }
         bn::core::update();
     }

@@ -1,15 +1,19 @@
 #include <bn_core.h>
 #include <bn_sprite_ptr.h>
 
+#include <bn_vector.h>
+
 #include "bn_sprite_items_dot.h"
 
 int main() {
     bn::core::init();
 
-    bn::sprite_ptr dot = bn::sprite_items::dot.create_sprite(0, 0);
-    bn::sprite_ptr dot2 = bn::sprite_items::dot.create_sprite(20, 0);
-    bn::sprite_ptr dot3 = bn::sprite_items::dot.create_sprite(40, 0);
-    bn::sprite_ptr dot4 = bn::sprite_items::dot.create_sprite(60, 0);
+    bn::vector<bn::sprite_ptr, 10> dots = {};
+
+    for(int x = 0; x <= 100; x+=20) {
+        bn::sprite_ptr dot = bn::sprite_items::dot.create_sprite(x, 0);
+        dots.push_back(dot);
+    }
 
     while(1) {
         bn::core::update();

@@ -54,7 +54,7 @@ int main() {
     dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 1);
 
     while(1) {
-        if(popped[sel_col][sel_row]) {
+        if(popped[sel_row][sel_col]) {
             dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 2);
         } else {
             dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 0);
@@ -62,16 +62,26 @@ int main() {
         
         sel_col = wrap(sel_col+tribool(bn::keypad::left_pressed(), bn::keypad::right_pressed()), dots[0].size() - 1);
         sel_row = wrap(sel_row+tribool(bn::keypad::up_pressed(), bn::keypad::down_pressed()), dots.size() - 1);
-        if(bn::keypad::a_pressed() && !popped[sel_col][sel_row]) {
-            popped[sel_col][sel_row] = true;
+        if(bn::keypad::a_pressed() && !popped[sel_row][sel_col]) {
+            popped[sel_row][sel_col] = true;
             bn::sound_items::pop.play();
         }
 
-        if(popped[sel_col][sel_row]) {
+        if(popped[sel_row][sel_col]) {
             dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 3);
         } else {
             dots[sel_row][sel_col].set_item(bn::sprite_items::dot, 1);
         }
+
+        if(bn::keypad::start_pressed()) {
+            for(int row = 0; row < 9; row++) {
+                for(int col = 0; col < 13; col++) {
+                    dots[row][col].set_item(bn::sprite_items::dot, 0);
+                    popped[row][col] = false;
+                }
+            }
+        }
+
         bn::core::update();
     }
 

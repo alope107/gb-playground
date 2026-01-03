@@ -7,31 +7,30 @@
 #define HALF_SCREEN_WIDTH 120
 #define HALF_SCREEN_HEIGHT 80 
 
-#define BOUNCER_COUNT 3
+#define COUNT 5
 
 int main() {
     bn::core::init();
 
-    bn::array<bn::sprite_ptr, BOUNCER_COUNT> bouncers = {
-        bn::sprite_items::dot.create_sprite(0, 0, 1),
-        bn::sprite_items::dot.create_sprite(0, 0, 1),
-        bn::sprite_items::dot.create_sprite(0, 0, 1)
-    };
+    bn::vector<bn::sprite_ptr, COUNT> bouncers = {};
+    bouncers.push_back(bn::sprite_items::dot.create_sprite(0, 0, 1));
+    bouncers.push_back(bn::sprite_items::dot.create_sprite(0, 0, 1));
+    bouncers.push_back(bn::sprite_items::dot.create_sprite(1, 0, 1));
 
-    bn::array<bn::fixed, BOUNCER_COUNT> dxs = {
-       1,
-       1.5,
-       -1
-    };
+    bn::vector<bn::fixed, COUNT> dxs {};
+    dxs.push_back(1);
+    dxs.push_back(1.2);
+    dxs.push_back(-1);
 
-    bn::array<bn::fixed, BOUNCER_COUNT> dys = {
-        2,
-        -1.1,
-        1
-    };
+
+    bn::vector<bn::fixed, COUNT> dys;
+    dys.push_back(2);
+    dys.push_back(-1.3);
+    dys.push_back(5);
+
 
     while(true) {
-        for(int i = 0; i < BOUNCER_COUNT; i++){
+        for(int i = 0; i < bouncers.size(); i++){
             bouncers[i].set_x(bouncers[i].x() + dxs[i]);
             bouncers[i].set_y(bouncers[i].y() + dys[i]);
 

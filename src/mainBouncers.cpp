@@ -2,31 +2,37 @@
 #include <bn_sprite_ptr.h>
 #include <bn_vector.h>
 
+#include <bn_random.h>
+
 #include <bn_sprite_items_dot.h>
 
 #define HALF_SCREEN_WIDTH 120
 #define HALF_SCREEN_HEIGHT 80 
 
-#define COUNT 5
+#define MAX_COUNT 50
+#define STARTING_COUNT 3
+
 
 int main() {
     bn::core::init();
 
-    bn::vector<bn::sprite_ptr, COUNT> bouncers = {};
-    bouncers.push_back(bn::sprite_items::dot.create_sprite(0, 0, 1));
-    bouncers.push_back(bn::sprite_items::dot.create_sprite(0, 0, 1));
-    bouncers.push_back(bn::sprite_items::dot.create_sprite(1, 0, 1));
+    bn::random rng = bn::random();
 
-    bn::vector<bn::fixed, COUNT> dxs {};
-    dxs.push_back(1);
-    dxs.push_back(1.2);
-    dxs.push_back(-1);
+    bn::vector<bn::sprite_ptr, MAX_COUNT> bouncers = {};
+    bn::vector<bn::fixed, MAX_COUNT> dxs {};
+    bn::vector<bn::fixed, MAX_COUNT> dys {};
 
+    for (int i = 0; i < STARTING_COUNT; i++) {
+        bn::fixed x = rng.get_fixed(-HALF_SCREEN_WIDTH, HALF_SCREEN_WIDTH);
+        bn::fixed y = rng.get_fixed(-HALF_SCREEN_HEIGHT, HALF_SCREEN_HEIGHT);
+        bouncers.push_back(bn::sprite_items::dot.create_sprite(x, y, 1));
 
-    bn::vector<bn::fixed, COUNT> dys;
-    dys.push_back(2);
-    dys.push_back(-1.3);
-    dys.push_back(5);
+        bn::fixed dx = rng.get_fixed(-3, 3);
+        bn::fixed dy = rng.get_fixed(-3, 3);
+
+        dxs.push_back(dx);
+        dys.push_back(dy);
+    }
 
 
     while(true) {
